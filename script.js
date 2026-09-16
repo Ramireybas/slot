@@ -18,6 +18,9 @@ let isSpinning = false;
 
 const getRandomImage = () => images[Math.floor(Math.random() * images.length)];
 
+// =========================================================
+// INICIALIZACIÓN DE LA MÁQUINA
+// =========================================================
 function inicializarRodillos() {
     reels.forEach(reel => {
         reel.innerHTML = '';
@@ -25,7 +28,7 @@ function inicializarRodillos() {
         strip.classList.add('strip');
         strip.style.transform = 'translateY(0px)';
         
-        // AQUÍ ESTÁ LA MAGIA: getBoundingClientRect no redondea los decimales
+        // Usamos getBoundingClientRect para precisión milimétrica sin decimales sueltos
         const reelHeight = reel.getBoundingClientRect().height || 200;
         const symbolHeight = reelHeight / 3;
 
@@ -38,14 +41,18 @@ function inicializarRodillos() {
         reel.appendChild(strip);
     });
 }
-// Aseguramos que la fuente y el CSS carguen antes de calcular tamaños
+// Aseguramos que cargue después de que el CSS esté listo
 window.addEventListener('load', inicializarRodillos);
 
+// =========================================================
+// GATILLO DEL GIRO
+// =========================================================
 function dispararGiro() {
     if (isSpinning) return; 
     
     isSpinning = true;
     
+    // Apagamos las luces ganadoras/perdedoras del tiro anterior
     reels.forEach(reel => {
         reel.classList.remove('win-glow', 'lose-glow');
     });
@@ -61,35 +68,51 @@ function dispararGiro() {
 if (leverTrigger) leverTrigger.addEventListener('click', dispararGiro);
 if (spinButton) spinButton.addEventListener('click', dispararGiro);
 
+// =========================================================
+// LÓGICA DE GIRO Y PROBABILIDADES (El "Cerebro de Casino")
+// =========================================================
 function iniciarGiroMultiFila() {
     let completed = 0;
     const finalResults = [];
     const maxSpinTimeMs = 4500; 
 
+    // Failsafe: por si la animación se traba, libera el botón
     const safetyTimeout = setTimeout(() => {
         if (isSpinning) isSpinning = false;
     }, maxSpinTimeMs + 500);
 
+    // 🎯 CONTROL DE PROBABILIDAD DE GANAR (Modifica este número)
+    const probabilidadDeGanar = 0.40; // 0.40 = 40% de chances. 0.20 = 20%, etc.
+    let forzarPremio = Math.random() < probabilidadDeGanar;
+    let imagenGanadoraForzada = getRandomImage(); // Si toca premio, define qué premio es
+
     reels.forEach((reel, index) => {
-        // Cálculo milimétrico para el giro
         const reelHeight = reel.getBoundingClientRect().height || 200;
-        const totalSymbols = 20 + (index * 5); 
+        const totalSymbols = 20 + (index * 5); // Cada carril tiene más imágenes que el anterior
         const symbolHeight = reelHeight / 3;
         
         const strip = document.createElement('div');
         strip.classList.add('strip');
 
         const symbolsArray = [];
+        const winningIndex = totalSymbols - 2; // La fila que queda exactamente en el centro
+
         for (let i = 0; i < totalSymbols; i++) {
-            const chosen = getRandomImage();
+            let chosen = getRandomImage();
+            
+            // Si es un tiro ganador y estamos en la fila del medio, inyectamos la imagen del premio
+            if (forzarPremio && i === winningIndex) {
+                chosen = imagenGanadoraForzada;
+            }
+
             symbolsArray.push(chosen);
             const img = document.createElement('img');
             img.src = chosen;
-            img.style.height = `${symbolHeight}px`; // Medida exacta con decimales
+            img.style.height = `${symbolHeight}px`; 
             strip.appendChild(img);
         }
 
-        const winningIndex = totalSymbols - 2; 
+        // Guardamos lo que quedó en el centro para la comprobación final
         finalResults.push(symbolsArray[winningIndex]);
 
         reel.innerHTML = '';
@@ -114,6 +137,9 @@ function iniciarGiroMultiFila() {
     });
 }
 
+// =========================================================
+// COMPROBACIÓN DE RESULTADOS Y LUCES
+// =========================================================
 function checkResult(results) {
     if (!resultMessage) return;
     
@@ -122,6 +148,7 @@ function checkResult(results) {
     const img3 = results[2];
 
     if (img1 === img2 && img2 === img3) {
+        // Enciende las luces doradas si ganan
         reels.forEach(reel => reel.classList.add('win-glow'));
 
         if (img1 === images[0]) {
@@ -138,6 +165,7 @@ function checkResult(results) {
             resultMessage.style.color = '#00ffcc';
         }
     } else {
+        // Enciende las luces rojas si pierden
         reels.forEach(reel => reel.classList.add('lose-glow'));
         resultMessage.textContent = 'INTÉNTALO DE NUEVO';
         resultMessage.style.color = '#ff3366';
