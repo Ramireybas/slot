@@ -25,24 +25,27 @@ function inicializarRodillos() {
         strip.classList.add('strip');
         strip.style.transform = 'translateY(0px)';
         
+        // AQUÍ ESTÁ LA MAGIA: getBoundingClientRect no redondea los decimales
+        const reelHeight = reel.getBoundingClientRect().height || 200;
+        const symbolHeight = reelHeight / 3;
+
         for (let i = 0; i < 4; i++) {
             let img = document.createElement('img');
             img.src = getRandomImage();
+            img.style.height = `${symbolHeight}px`; 
             strip.appendChild(img);
         }
         reel.appendChild(strip);
     });
 }
-inicializarRodillos();
+// Aseguramos que la fuente y el CSS carguen antes de calcular tamaños
+window.addEventListener('load', inicializarRodillos);
 
 function dispararGiro() {
-    if (isSpinning) {
-        return; 
-    }
+    if (isSpinning) return; 
     
     isSpinning = true;
     
-    // APAGAR LUCES: Quitamos los brillos de giros anteriores
     reels.forEach(reel => {
         reel.classList.remove('win-glow', 'lose-glow');
     });
@@ -64,14 +67,14 @@ function iniciarGiroMultiFila() {
     const maxSpinTimeMs = 4500; 
 
     const safetyTimeout = setTimeout(() => {
-        if (isSpinning) {
-            isSpinning = false;
-        }
+        if (isSpinning) isSpinning = false;
     }, maxSpinTimeMs + 500);
 
     reels.forEach((reel, index) => {
-        const reelHeight = reel.offsetHeight || 200;
+        // Cálculo milimétrico para el giro
+        const reelHeight = reel.getBoundingClientRect().height || 200;
         const totalSymbols = 20 + (index * 5); 
+        const symbolHeight = reelHeight / 3;
         
         const strip = document.createElement('div');
         strip.classList.add('strip');
@@ -82,10 +85,11 @@ function iniciarGiroMultiFila() {
             symbolsArray.push(chosen);
             const img = document.createElement('img');
             img.src = chosen;
+            img.style.height = `${symbolHeight}px`; // Medida exacta con decimales
             strip.appendChild(img);
         }
 
-        const winningIndex = totalSymbols - 3; 
+        const winningIndex = totalSymbols - 2; 
         finalResults.push(symbolsArray[winningIndex]);
 
         reel.innerHTML = '';
@@ -93,9 +97,7 @@ function iniciarGiroMultiFila() {
         
         void strip.getBoundingClientRect(); 
 
-        const symbolHeight = reelHeight / 3;
         const distance = -((totalSymbols - 3) * symbolHeight);
-        
         const spinTime = 1.5 + (index * 0.5); 
         
         strip.style.transition = `transform ${spinTime}s cubic-bezier(0.25, 1, 0.45, 1.05)`;
@@ -120,7 +122,6 @@ function checkResult(results) {
     const img3 = results[2];
 
     if (img1 === img2 && img2 === img3) {
-        // ENCIENDE LUZ ORO: Si las 3 coinciden
         reels.forEach(reel => reel.classList.add('win-glow'));
 
         if (img1 === images[0]) {
@@ -137,9 +138,7 @@ function checkResult(results) {
             resultMessage.style.color = '#00ffcc';
         }
     } else {
-        // ENCIENDE LUZ ROJA: Si no hay premio
         reels.forEach(reel => reel.classList.add('lose-glow'));
-
         resultMessage.textContent = 'INTÉNTALO DE NUEVO';
         resultMessage.style.color = '#ff3366';
     }
