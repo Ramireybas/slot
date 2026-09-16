@@ -1,29 +1,49 @@
+/* ========================================================= */
+/* RESETEO BÁSICO                                            */
+/* ========================================================= */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* ========================================================= */
+/* CUERPO Y PANTALLA (Ajuste estricto para 344x1032)         */
+/* ========================================================= */
 body {
-    background-color: #000; /* Fondo negro para que resalte la máquina */
+    /* Aquí puedes poner tu imagen de fondo si decides hacerlo en CSS */
+    background-image: url('fondo.png'); 
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    
+    width: 344px;
+    height: 1032px; 
+    margin: 0 auto;
     font-family: 'Arial Black', sans-serif;
     overflow: hidden;
+
+    /* Bloqueos para evitar zoom y selección accidental en la Tablet */
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-select: none;
 }
 
-/* Contenedor principal que agrupa la imagen y las capas interactivas */
+/* ========================================================= */
+/* ESTRUCTURA DE LA MÁQUINA                                  */
+/* ========================================================= */
 .slot-machine-wrapper {
     position: relative;
-    width: 90vw;
-    max-width: 800px; /* Tamaño máximo de la máquina */
-    margin-bottom: 20px;
+    width: 100%; 
+    height: auto; 
 }
 
-/* La imagen de fondo de la máquina */
 .slot-bg {
     width: 100%;
     height: auto;
@@ -31,17 +51,17 @@ body {
 }
 
 /* ========================================================= */
-/* POSICIONAMIENTO SUPERPUESTO (Los 3 carriles de la máquina)*/
+/* POSICIONAMIENTO SUPERPUESTO (Los 3 carriles)              */
 /* ========================================================= */
-
 .reels-overlay {
     position: absolute;
-    top: 32.5%;    /* Distancia desde arriba de la imagen de fondo */
-    left: 18.8%;   /* Distancia desde la izquierda */
-    width: 69%;    /* Ancho total que abarcan los 3 recuadros */
-    height: 44%;   /* Alto de los recuadros blancos */
+    top: 31.5%;    
+    left: 13.8%;   
+    width: 69%;    
+    height: 44%;   
     display: flex;
     justify-content: space-between;
+    /* border: 3px solid red;  <-- Descomenta esta línea si necesitas volver a calibrar la posición */
 }
 
 /* Cada uno de los 3 carriles */
@@ -55,7 +75,7 @@ body {
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
 }
 
-/* La tira que contiene los múltiples símbolos apilados verticalmente */
+/* La tira móvil de imágenes */
 .strip {
     display: flex;
     flex-direction: column;
@@ -67,18 +87,16 @@ body {
 
 .strip img {
     width: 100%;
-    /* Eliminamos el height: 33.333% de aquí. Lo manejará JS en píxeles exactos */
     object-fit: contain;
     padding: 8px;
     box-sizing: border-box;
     flex-shrink: 0;
-    display: block; /* Evita espacios fantasma debajo de las imágenes */
+    display: block; 
 }
 
 /* ========================================================= */
-/* LA PALANCA INVISIBLE (Zona de clic)                     */
+/* CONTROLES E INTERACCIÓN                                   */
 /* ========================================================= */
-
 .invisible-lever {
     position: absolute;
     top: 15%;
@@ -89,24 +107,45 @@ body {
     z-index: 10;
 }
 
-/* ========================================================= */
-/* TEXTOS Y MENSAJES DE RESULTADO                           */
-/* ========================================================= */
+#spin-button {
+    position: relative;
+    z-index: 9999; /* Asegura que no quede tapado por otras capas */
+    cursor: pointer;
+    pointer-events: auto; 
+    
+    /* Estética del botón */
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.5em;
+    font-family: 'Arial Black', sans-serif;
+    background-color: #339cff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 0 #005fcc;
+}
 
+#spin-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #cc0044;
+}
+
+/* ========================================================= */
+/* TEXTOS Y MENSAJES DE RESULTADO                            */
+/* ========================================================= */
 #result-message {
-    color: #00ffcc; /* Color neón acorde al diseño */
-    font-size: 1.8em;
+    color: #00ffcc; 
+    font-size: 1.2em; /* Tamaño reducido para encajar en 344px */
     text-transform: uppercase;
     text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     min-height: 40px;
     margin-bottom: 15px;
     text-align: center;
 }
-/* ========================================================= */
-/* EFECTOS DE ILUMINACIÓN (Premio y Consuelo)               */
-/* ========================================================= */
 
-/* Animación de latido para el oro */
+/* ========================================================= */
+/* EFECTOS DE ILUMINACIÓN (Premio y Consuelo)                */
+/* ========================================================= */
 @keyframes pulse-gold {
     0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.4), inset 0 0 0 3px #ffd700; }
     50% { box-shadow: 0 0 35px rgba(255, 215, 0, 1), inset 0 0 25px rgba(255, 215, 0, 0.8), inset 0 0 0 3px #ffd700; }
@@ -121,9 +160,4 @@ body {
 .reel.lose-glow {
     box-shadow: 0 0 25px rgba(255, 51, 102, 0.8), inset 0 0 15px rgba(255, 51, 102, 0.5), inset 0 0 0 3px #ff3366;
     transition: all 0.3s ease;
-}
-
-.reels-overlay {
-    /* ... tus otros valores ... */
-    border: 3px solid red; /* AGREGA ESTO PARA VER LA CAJA */
 }
