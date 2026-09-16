@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo ISP Group</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Mensaje de resultado arriba o abajo -->
+<div id="result-message">¡Haz clic para girar!</div>
+
+<div class="slot-machine-wrapper">
+    <!-- El fondo con los marcos dorados -->
+    <img src="image_45c16d.png" alt="Máquina Slot Clásica" class="slot-bg">
+    
+    <!-- Contenedor superpuesto para los rodillos -->
+    <div class="reels-overlay">
+        <div class="reel" id="reel1"></div>
+        <div class="reel" id="reel2"></div>
+        <div class="reel" id="reel3"></div>
+    </div>
+
+    <!-- Zona invisible superpuesta sobre la palanca de la imagen -->
+    <div id="lever-trigger" class="invisible-lever" title="¡Haz clic en la palanca!"></div>
+</div>
+
+<!-- Botón tradicional por si prefieres usar este también -->
+<button id="spin-button" style="margin-top: 15px; padding: 10px 20px; font-size: 1.2em; cursor: pointer;">GIRAR</button>
+
+<script src="script.js"></script>
+</body>
+</html>
