@@ -82,7 +82,7 @@ function iniciarGiroMultiFila() {
     }, maxSpinTimeMs + 500);
 
     // 🎯 CONTROL DE PROBABILIDAD DE GANAR (Modifica este número)
-    const probabilidadDeGanar = 0.15; // 0.40 = 40% de chances. 0.20 = 20%, etc.
+    const probabilidadDeGanar = 0.12; // 0.40 = 40% de chances. 0.20 = 20%, etc.
     let forzarPremio = Math.random() < probabilidadDeGanar;
     let imagenGanadoraForzada = getRandomImage(); // Si toca premio, define qué premio es
 
