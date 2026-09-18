@@ -11,10 +11,9 @@
 /* CUERPO Y PANTALLA (Restaurado a modo responsivo)          */
 /* ========================================================= */
 body {
-    /* Si decides usar imagen de fondo, descomenta estas líneas: */
-    /* background-image: url('nombre-de-tu-fondo.jpg'); */
-    /* background-size: cover; */
-    /* background-position: center; */
+     background-image: url('image_45c16d.png'); 
+     background-size: cover; 
+     background-position: center; 
     
     background-color: #000;
     display: flex;
