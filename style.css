@@ -8,40 +8,37 @@
 }
 
 /* ========================================================= */
-/* CUERPO Y PANTALLA (Ajuste estricto para 344x1032)         */
+/* CUERPO Y PANTALLA (Restaurado a modo responsivo)          */
 /* ========================================================= */
 body {
-    /* Aquí puedes poner tu imagen de fondo si decides hacerlo en CSS */
-    background-image: url('fondo.png'); 
-    background-color: #000;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Si decides usar imagen de fondo, descomenta estas líneas: */
+    /* background-image: url('nombre-de-tu-fondo.jpg'); */
+    /* background-size: cover; */
+    /* background-position: center; */
     
+    background-color: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-    width: 344px;
-    height: 1032px; 
-    margin: 0 auto;
+    min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla disponible */
     font-family: 'Arial Black', sans-serif;
     overflow: hidden;
 
-    /* Bloqueos para evitar zoom y selección accidental en la Tablet */
+    /* Bloqueos mantenidos para evitar zoom/selección en la Tablet */
     user-select: none;
     touch-action: manipulation;
     -webkit-user-select: none;
 }
 
 /* ========================================================= */
-/* ESTRUCTURA DE LA MÁQUINA                                  */
+/* ESTRUCTURA DE LA MÁQUINA (Responsiva)                     */
 /* ========================================================= */
 .slot-machine-wrapper {
     position: relative;
-    width: 100%; 
-    height: auto; 
+    width: 90vw;       /* Ancho flexible basado en la pantalla */
+    max-width: 800px;  /* Límite máximo para que no se vea gigante en monitores */
+    margin-bottom: 20px;
 }
 
 .slot-bg {
@@ -51,22 +48,20 @@ body {
 }
 
 /* ========================================================= */
-/* POSICIONAMIENTO SUPERPUESTO (Los 3 carriles)              */
+/* POSICIONAMIENTO SUPERPUESTO (Valores originales)          */
 /* ========================================================= */
 .reels-overlay {
     position: absolute;
-    top: 31.5%;    
-    left: 13.8%;   
+    top: 32.5%;    
+    left: 18.8%;   
     width: 69%;    
     height: 44%;   
     display: flex;
     justify-content: space-between;
-    /* border: 3px solid red;  <-- Descomenta esta línea si necesitas volver a calibrar la posición */
 }
 
-/* Cada uno de los 3 carriles */
 .reel {
-    width: 54%; 
+    width: 29%; 
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -75,7 +70,6 @@ body {
     box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
 }
 
-/* La tira móvil de imágenes */
 .strip {
     display: flex;
     flex-direction: column;
@@ -109,20 +103,19 @@ body {
 
 #spin-button {
     position: relative;
-    z-index: 9999; /* Asegura que no quede tapado por otras capas */
+    z-index: 9999; 
     cursor: pointer;
     pointer-events: auto; 
     
-    /* Estética del botón */
     margin-top: 20px;
     padding: 15px 30px;
     font-size: 1.5em;
     font-family: 'Arial Black', sans-serif;
-    background-color: #339cff;
+    background-color: #ff3366;
     color: white;
     border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 0 #005fcc;
+    box-shadow: 0 4px 0 #cc0044;
 }
 
 #spin-button:active {
@@ -135,7 +128,7 @@ body {
 /* ========================================================= */
 #result-message {
     color: #00ffcc; 
-    font-size: 1.2em; /* Tamaño reducido para encajar en 344px */
+    font-size: 1.8em; /* Restaurado al tamaño más grande original */
     text-transform: uppercase;
     text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
     min-height: 40px;
