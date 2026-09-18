@@ -51,16 +51,18 @@ body {
 /* ========================================================= */
 .reels-overlay {
     position: absolute;
-    top: 32.5%;    
-    left: 18.8%;   
+    top: 31.5%;    
+    left: 13.8%;   
     width: 69%;    
     height: 44%;   
     display: flex;
     justify-content: space-between;
+    /* border: 3px solid red;  <-- Descomenta esta línea si necesitas volver a calibrar la posición */
 }
 
+/* Cada uno de los 3 carriles */
 .reel {
-    width: 29%; 
+    width: 54%; 
     height: 100%;
     overflow: hidden;
     position: relative;
