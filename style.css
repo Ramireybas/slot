@@ -11,7 +11,7 @@
 /* CUERPO Y PANTALLA (Restaurado a modo responsivo)          */
 /* ========================================================= */
 body {
-     background-image: url('image_45c16d.png'); 
+     background-image: url('fondo.png'); 
      background-size: cover; 
      background-position: center; 
     
@@ -102,25 +102,27 @@ body {
 
 #spin-button {
     position: relative;
-    z-index: 9999; 
+    z-index: 9999; /* Asegura que no quede tapado por otras capas */
     cursor: pointer;
     pointer-events: auto; 
     
+    /* Estética del botón */
     margin-top: 20px;
     padding: 15px 30px;
     font-size: 1.5em;
     font-family: 'Arial Black', sans-serif;
-    background-color: #ff3366;
+    background-color: #339cff;
     color: white;
     border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 0 #cc0044;
+    box-shadow: 0 4px 0 #005fcc;
 }
 
 #spin-button:active {
     transform: translateY(4px);
     box-shadow: 0 0 0 #cc0044;
 }
+
 
 /* ========================================================= */
 /* TEXTOS Y MENSAJES DE RESULTADO                            */
