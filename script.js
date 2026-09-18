@@ -152,13 +152,13 @@ function checkResult(results) {
         reels.forEach(reel => reel.classList.add('win-glow'));
 
         if (img1 === images[0]) {
-            resultMessage.textContent = '🎉 ¡PREMIO MAYOR (Sensa)! 🎉';
+            resultMessage.textContent = '🎉 ¡PREMIO MAYOR! 🎉';
             resultMessage.style.color = '#f1c40f';
         } else if (img1 === images[1]) {
-            resultMessage.textContent = '🥈 ¡PREMIO NOKIA! 🥈';
+            resultMessage.textContent = '🥈 ¡PREMIO! 🥈';
             resultMessage.style.color = '#bdc3c7';
         } else if (img1 === images[2]) {
-            resultMessage.textContent = '🥉 ¡PREMIO ISP GROUP! 🥉';
+            resultMessage.textContent = '🥉 ¡PREMIO! 🥉';
             resultMessage.style.color = '#cd7f32';
         } else {
             resultMessage.textContent = '¡COMBO PERFECTO GANADOR!';
